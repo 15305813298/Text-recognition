@@ -34,6 +34,7 @@ namespace Text_recognition
             this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
             this.pictureBox1.Image = bmp;
+            bmp.Dispose();
         }
     }
 }
