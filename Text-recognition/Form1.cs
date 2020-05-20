@@ -33,7 +33,8 @@ namespace Text_recognition
             graphics.CopyFromScreen(0, 0, 0, 0, new Size(ScreenArea.Width, ScreenArea.Height));
             this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            this.pictureBox1.Image = bmp;
+            bmp.Save("../../Resource/pic.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            pictureBox1.Image = Image.FromFile("../../Resource/pic.jpg");
             bmp.Dispose();
         }
     }
