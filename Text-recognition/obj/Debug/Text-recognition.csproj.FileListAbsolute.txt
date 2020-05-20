@@ -1,0 +1,10 @@
+D:\VS Workspace\Text-recognition\Text-recognition\bin\Debug\Text-recognition.exe.config
+D:\VS Workspace\Text-recognition\Text-recognition\bin\Debug\Text-recognition.exe
+D:\VS Workspace\Text-recognition\Text-recognition\bin\Debug\Text-recognition.pdb
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text-recognition.csprojAssemblyReference.cache
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text_recognition.Form1.resources
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text_recognition.Properties.Resources.resources
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text-recognition.csproj.GenerateResource.cache
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text-recognition.csproj.CoreCompileInputs.cache
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text-recognition.exe
+D:\VS Workspace\Text-recognition\Text-recognition\obj\Debug\Text-recognition.pdb
