@@ -40,7 +40,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(429, 48);
+            this.textBox1.Location = new System.Drawing.Point(427, 48);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(400, 400);
@@ -94,7 +94,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(23, 48);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 48);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(400, 400);
             this.pictureBox1.TabIndex = 6;
