@@ -124,7 +124,6 @@ namespace Text_recognition
                 // 第二个参数指定绘制到空白图片的位置和大小
                 // 画完后CatchedBmp不再是空白图片了，而是具有与截取的图片一样的内容
                 g.DrawImage(originBmp, new Rectangle(0, 0, CatchRectangle.Width, CatchRectangle.Height), CatchRectangle, GraphicsUnit.Pixel);
-
                 // 将图片保存到剪切板中
                 returnFormImageString(CatchedBmp);
                 g.Dispose();
