@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,8 @@ namespace Text_recognition
     public delegate void copyToFatherTextBox(Rectangle r);
     public partial class Form1 : Form
     {
+        public List<String> imagePathList = new List<string>();
+        public int index = 0;
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +28,7 @@ namespace Text_recognition
             this.Location = point;
         }
 
+        //截图
         private void button1_Click(object sender, EventArgs e)
         {
             // 新建一个和屏幕大小相同的图片
@@ -40,30 +44,68 @@ namespace Text_recognition
             screenForm.BackgroundImage = CatchBmp;
             screenForm.returnFormImageString += new returnImageString(screenForm_returnFormImageString);
             screenForm.ShowDialog();
-            /*//获得当前屏幕的分辨率
-            Screen scr = Screen.PrimaryScreen;
-            Rectangle rc = scr.Bounds;
-            int iWidth = rc.Width;
-            int iHeight = rc.Height;
-            //创建一个和屏幕一样大的Bitmap
-            Image myImage = new Bitmap(iWidth, iHeight);
-            //从一个继承自Image类的对象中创建Graphics对象
-            Graphics g = Graphics.FromImage(myImage);
-            //抓屏并拷贝到myimage里
-            g.CopyFromScreen(new Point(0, 0), new Point(0, 0), new Size(iWidth, iHeight));
-            //保存为文件
-            myImage.Save(@"c:/1.jpeg");
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Image = Image.FromFile("c:/1.jpeg");*/
         }
 
+        //接收截图返回数据
         public void screenForm_returnFormImageString(Bitmap bt)
         {
             Image image = new Bitmap(bt);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
             pictureBox1.Image = image;
+        }
+
+        //本地加载图片
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;//该值确定是否可以选择多个文件
+            dialog.Title = "请选择文件夹"; //窗体标题
+            dialog.Filter = "图片文件(*.jpg,*.png)|*.jpg;*.png"; //文件筛选
+            //默认路径设置为我的电脑文件夹
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                foreach(String file in dialog.FileNames)
+                {
+                    imagePathList.Add(file);
+                }
+                pictureBox1.Image = Image.FromFile(imagePathList[index]);
+            }
+        }
+
+        //下一页
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (imagePathList.Count != 0)
+            {
+                if(index == imagePathList.Count - 1)
+                {
+                    index = -1;
+                }
+                pictureBox1.Image = Image.FromFile(imagePathList[++index]);
+            }
+        }
+
+        //上一页
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if(imagePathList.Count!= 0)
+            {
+                if (index == 0)
+                {
+                    index = imagePathList.Count;
+                }
+                pictureBox1.Image = Image.FromFile(imagePathList[--index]);
+            }
+        }
+
+        //清空数据
+        private void button3_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = null;
+            textBox1.Text = "";
+            imagePathList.Clear();
         }
     }
 }

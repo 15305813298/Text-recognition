@@ -33,7 +33,7 @@ namespace Text_recognition
 
         private void ScreenForm_Load(object sender, EventArgs e)
         {
-            //this.TopMost = true;
+            this.TopMost = true;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             this.UpdateStyles();
             // 改变鼠标样式
