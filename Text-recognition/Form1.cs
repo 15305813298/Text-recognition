@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -14,8 +15,10 @@ namespace Text_recognition
     public delegate void copyToFatherTextBox(Rectangle r);
     public partial class Form1 : Form
     {
-        public List<String> imagePathList = new List<string>();
-        public int index = 0;
+        public SortedSet<String> imagePathList = new SortedSet<string>();
+        public int index = 0;//当前显示下标
+        public int count = 0;//导入文件总数目
+        Api Api;
         public Form1()
         {
             InitializeComponent();
@@ -24,8 +27,14 @@ namespace Text_recognition
         private void Form1_Load(object sender, EventArgs e)
         {
             Point point = new Point(Screen.PrimaryScreen.Bounds.Left-8, Screen.PrimaryScreen.Bounds.Top);
-            this.textBox1.Width = 400;
+            this.Width = Screen.PrimaryScreen.Bounds.Width/2;
+            this.Height = Screen.PrimaryScreen.Bounds.Height - 50;
+            this.textBox1.Width = this.Width/2 - 20;
+            this.textBox1.Height = this.Height - 50;
+            this.pictureBox1.Width = this.Width / 2 - 20;
+            this.pictureBox1.Height = this.Height - 100;
             this.Location = point;
+            Api = new Api();
         }
 
         //截图
@@ -50,9 +59,10 @@ namespace Text_recognition
         public void screenForm_returnFormImageString(Bitmap bt)
         {
             Image image = new Bitmap(bt);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            image.Save("temp.jpg");
+            suit();
             pictureBox1.Image = image;
+            textBox1.Text = Api.GeneralBasicDemo("temp.jpg");
         }
 
         //本地加载图片
@@ -70,42 +80,76 @@ namespace Text_recognition
                 {
                     imagePathList.Add(file);
                 }
-                pictureBox1.Image = Image.FromFile(imagePathList[index]);
+                suit();
+                pictureBox1.Image = Image.FromFile(imagePathList.ElementAt(index));
+                textBox1.Text = Api.GeneralBasicDemo(imagePathList.ElementAt(index));
+                count = imagePathList.Count;
             }
         }
 
         //下一页
         private void button6_Click(object sender, EventArgs e)
         {
-            if (imagePathList.Count != 0)
+            if (imagePathList.Count > 1)
             {
-                if(index == imagePathList.Count - 1)
+                if(index >= imagePathList.Count - 1)
                 {
                     index = -1;
                 }
-                pictureBox1.Image = Image.FromFile(imagePathList[++index]);
+                suit();
+                pictureBox1.Image = Image.FromFile(imagePathList.ElementAt(++index));
+                textBox1.Text = Api.GeneralBasicDemo(imagePathList.ElementAt(index));
             }
         }
 
         //上一页
         private void button7_Click(object sender, EventArgs e)
         {
-            if(imagePathList.Count!= 0)
+            if(imagePathList.Count > 1)
             {
                 if (index == 0)
                 {
                     index = imagePathList.Count;
                 }
-                pictureBox1.Image = Image.FromFile(imagePathList[--index]);
+                suit();
+                pictureBox1.Image = Image.FromFile(imagePathList.ElementAt(--index));
+                textBox1.Text = Api.GeneralBasicDemo(imagePathList.ElementAt(index));
             }
         }
 
         //清空数据
         private void button3_Click(object sender, EventArgs e)
         {
+            index = 0;
             pictureBox1.Image = null;
             textBox1.Text = "";
             imagePathList.Clear();
+            Api.rt.words = "";
+        }
+
+        private void suit()
+        {
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "文本文件(*.txt)|*.txt";
+            dialog.FileName = "Text-recognition.txt";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                StreamWriter streamWriter = new StreamWriter(dialog.FileName, true);
+                streamWriter.Write(this.textBox1.Text);
+                streamWriter.Close();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(textBox1.Text.ToString());
         }
     }
 }
